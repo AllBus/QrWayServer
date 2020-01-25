@@ -35,7 +35,9 @@ libraryDependencies ++= Seq(
 
   "com.google.zxing" % "core" % "3.4.0",
   "com.thesamet.scalapb" %% "compilerplugin" % "0.9.6",
-  "com.thesamet.scalapb" %% "scalapb-runtime" % "0.9.6" % "protobuf"
+  "com.thesamet.scalapb" %% "scalapb-runtime" % "0.9.6" % "protobuf",
+
+  "com.typesafe.slick" %% "slick-codegen" % "3.2.0"
 
 )
 
@@ -47,7 +49,7 @@ scalacOptions ++= Seq(
   "-deprecation", // Emit warning and location for usages of deprecated APIs.
   "-feature", // Emit warning and location for usages of features that should be imported explicitly.
   "-unchecked", // Enable additional warnings where generated code depends on assumptions.
-  "-Xfatal-warnings", // Fail the compilation if there are any warnings.
+  //"-Xfatal-warnings", // Fail the compilation if there are any warnings.
   "-Xlint", // Enable recommended additional warnings.
   "-Ywarn-adapted-args", // Warn if an argument list is modified to match the receiver.
   "-Ywarn-dead-code", // Warn when dead code is identified.
@@ -55,7 +57,7 @@ scalacOptions ++= Seq(
   "-Ywarn-nullary-override", // Warn when non-nullary overrides nullary, e.g. def foo() over def foo.
   "-Ywarn-numeric-widen" // Warn when numerics are widened.
 )
-
-PB.targets in Compile := Seq(
-  scalapb.gen() -> (sourceManaged in Compile).value
-)
+//
+//PB.targets in Compile := Seq(
+//  scalapb.gen() -> (sourceManaged in Compile).value
+//)

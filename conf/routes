@@ -13,7 +13,9 @@ POST        /password/change                 controllers.ChangePasswordControlle
 GET         /account/email/:email            controllers.ActivateAccountController.send(email: String)
 GET         /account/activate/:token         controllers.ActivateAccountController.activate(token: java.util.UUID)
 
-GET         /sendEmail                  controllers.MailController.sendMail(subject:String,email:String)
+GET         /sendEmail                       controllers.MailController.sendMail(subject:String,email:String)
+
+GET         /evolutions.sql                  controllers.SchemaEvolutionsController.evolutions
 
 ### User management
 # Returns a list of all availalble user roles

@@ -1,0 +1,23 @@
+@import models.HasSchemaDescription.SqlSchemaDescription
+@(schemaDescriptions : Seq[SqlSchemaDescription])
+
+# Get the newest version of this evolutions script on the address
+# http://localhost:9000@(controllers.routes.SchemaEvolutionsController.evolutions)
+# when the server runs in development mode
+
+
+# --- !Ups
+
+@for(
+    schemaDescription <- schemaDescriptions;
+    statement <- schemaDescription.createStatements) {
+@(statement.replaceAll(";",";;"));
+}
+
+# --- !Downs
+
+@for(
+    schemaDescription <- schemaDescriptions;
+    statement <- schemaDescription.dropStatements) {
+@(statement.replaceAll(";",";;"));
+}

@@ -54,7 +54,7 @@ trait DBTableQuestionDefinitions {
 		def * = (id, questionId, title, text,image) <> (QuestionInfo.tupled, QuestionInfo.unapply)
 	}
 
-	class QrQuestions(tag: Tag) extends Table[QrQuestion](tag, Some("victorine"), "question_infos") {
+	class QrQuestions(tag: Tag) extends Table[QrQuestion](tag, Some("victorine"), "question_qrs") {
 		def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 		def qr = column[String]("qr")
 		def questionId = column[Long]("questionId")

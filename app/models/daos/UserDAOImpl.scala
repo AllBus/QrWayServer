@@ -5,7 +5,8 @@ import java.util.UUID
 
 import com.mohiva.play.silhouette.api.LoginInfo
 import javax.inject.Inject
-import models.{User, UserRoles}
+import models.HasSchemaDescription.SqlSchemaDescription
+import models.{HasSchemaDescription, User, UserRoles}
 import play.api.db.slick.DatabaseConfigProvider
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -13,8 +14,19 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
  * Give access to the user object.
  */
-class UserDAOImpl @Inject() (protected val dbConfigProvider: DatabaseConfigProvider, userRoleDAO: UserRoleDAO)(implicit ec: ExecutionContext) extends UserDAO with DAOSlick {
+class UserDAOImpl @Inject() (
+                              protected val dbConfigProvider: DatabaseConfigProvider,
+                              userRoleDAO: UserRoleDAO)(implicit ec: ExecutionContext)
+  extends UserDAO with DAOSlick with HasSchemaDescription {
   import profile.api._
+
+
+  def schemaDescription : Seq[SqlSchemaDescription] = Seq(
+    slickQuestions,
+    slickQrQuestions,
+    slickQuestionInfos,
+    slickQuestionGroups
+  ).map(_.schema)
 
   /**
    * Finds a user by its login info.
