@@ -1,26 +1,27 @@
 import play.sbt.routes.RoutesKeys
 RoutesKeys.routesImport := Seq.empty
 
-name := "play-silhouette-vuejs"
+name := "play-qrway"
 
 version := "4.0.0"
 
 scalaVersion := "2.12.8"
 
-lazy val playSlickVersion = "4.0.2"
+lazy val playSlickVersion = "5.0.0"
+lazy val silhouetteVersion = "6.1.1"
 
 resolvers += Resolver.jcenterRepo
 
 libraryDependencies ++= Seq(
-  "com.mohiva" %% "play-silhouette" % "6.1.0",
-  "com.mohiva" %% "play-silhouette-password-bcrypt" % "6.1.0",
-  "com.mohiva" %% "play-silhouette-persistence" % "6.1.0",
-  "com.mohiva" %% "play-silhouette-crypto-jca" % "6.1.0",
-  "com.mohiva" %% "play-silhouette-totp" % "6.1.0",
-  "net.codingwell" %% "scala-guice" % "4.1.0",
+  "com.mohiva" %% "play-silhouette" % silhouetteVersion,
+  "com.mohiva" %% "play-silhouette-password-bcrypt" % silhouetteVersion,
+  "com.mohiva" %% "play-silhouette-persistence" % silhouetteVersion,
+  "com.mohiva" %% "play-silhouette-crypto-jca" % silhouetteVersion,
+  "com.mohiva" %% "play-silhouette-totp" % silhouetteVersion,
+  "net.codingwell" %% "scala-guice" % "4.2.6",
   "org.postgresql" % "postgresql" % "9.4.1211",
-  "com.github.tminglei" %% "slick-pg" % "0.18.0",
-  "com.github.tminglei" %% "slick-pg_play-json" % "0.18.0",
+  "com.github.tminglei" %% "slick-pg" % "0.18.1",
+  "com.github.tminglei" %% "slick-pg_play-json" % "0.18.1",
   "com.iheart" %% "ficus" % "1.4.3",
   "com.typesafe.play" %% "play-slick"               % playSlickVersion,
   "com.typesafe.play" %% "play-slick-evolutions"    % playSlickVersion,

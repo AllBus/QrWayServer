@@ -13,7 +13,7 @@ trait CaptchaService {
 
 class ReCaptchaService @Inject()(config: ReCaptchaConfig, ws: WSClient)(implicit ec: ExecutionContext) extends CaptchaService {
 
-  def validate(recaptchaResponse: String, remoteIp: String) = {
+  def validate(recaptchaResponse: String, remoteIp: String): Future[Boolean] = {
     ws
       .url("https://www.google.com/recaptcha/api/siteverify")
       .withHttpHeaders("Accept" -> "application/json")
