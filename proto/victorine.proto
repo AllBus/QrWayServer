@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package qrway;
+
+
+message Question{
+    int64 id = 1;
+    string question = 2;
+    repeated string answers = 3;
+    int32 rightAnswerFlag = 4;
+
+}
+
+message QuestionInfo {
+    string title = 1;
+    string text = 2;
+    string image = 3;
+    string qr = 4;
+}
+
+message QuestionData {
+    Question question = 1;
+    QuestionInfo info = 2;
+}
+
+message GroupHeader{
+
+    string title = 2;
+    int32 color =3;
+    string description = 4;
+}
+
+message QuestionGroup{
+    int32 id = 1;
+    GroupHeader header = 2;
+    string questionNamePrefix = 4;
+    repeated int64 questionIds = 5;
+}
+
+message LoadQuestionRequest {
+    string qrLink = 1;
+}
+
+message LoadQuestionResponse {
+    QuestionData question = 1;
+    QuestionGroup group = 2;
+}
+
+
+    service QRWayService {
+    rpc loadQuestion(LoadQuestionRequest) returns (LoadQuestionResponse) {}
+}
+
+
+

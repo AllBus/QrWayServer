@@ -6,7 +6,7 @@ import java.util.UUID
 import javax.inject.Inject
 import com.mohiva.play.silhouette.api._
 import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
-import models.services.{AuthTokenService, MailService, UserService}
+import models.services.{AuthTokenService, MailService, MailerService, UserService}
 import play.api.mvc.{AbstractController, ControllerComponents}
 import utils.auth.DefaultEnv
 
@@ -25,7 +25,9 @@ class ActivateAccountController @Inject()(components: ControllerComponents,
                                           silhouette: Silhouette[DefaultEnv],
                                           userService: UserService,
                                           authTokenService: AuthTokenService,
-                                          mailService: MailService)(implicit ex: ExecutionContext) extends AbstractController(components) {
+                                          mailService: MailService,
+                                          mailer: MailerService
+                                         )(implicit ex: ExecutionContext) extends AbstractController(components) {
 
   /**
     * Sends an account activation email to the user with the given email.
@@ -40,14 +42,18 @@ class ActivateAccountController @Inject()(components: ControllerComponents,
     userService.retrieve(loginInfo).flatMap {
       case Some(user) if !user.activated =>
         authTokenService.create(user.userID).map { authToken =>
-          val route = routes.ActivateAccountController.activate(authToken.id)
-          mailService.sendActivateAccountEmail(decodedEmail, route.absoluteURL())
+          val route =
+            routes.ActivateAccountController.activate(authToken.id)
+        //  mailer.sendActivateAccountEmail(decodedEmail, route.absoluteURL())
+            mailService.sendActivateAccountEmail(decodedEmail, route.absoluteURL())
+
           Ok
         }
       case None => Future.successful(Ok)
     }
   }
 
+  def activateCode(){}
   /**
     * Activates an account.
     *

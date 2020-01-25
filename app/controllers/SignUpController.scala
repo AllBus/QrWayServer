@@ -2,18 +2,19 @@ package controllers
 
 import java.util.UUID
 
-import javax.inject.Inject
 import com.mohiva.play.silhouette.api._
 import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
-import services.AvatarService
+import com.mohiva.play.silhouette.api.services.AvatarService
 import com.mohiva.play.silhouette.api.util.PasswordHasherRegistry
 import com.mohiva.play.silhouette.impl.providers._
 import forms.SignUpForm
+import javax.inject.Inject
 import models.services.captcha.CaptchaService
-import models.{User, UserRoles}
 import models.services.{AuthTokenService, MailService, UserService}
+import models.{User, UserRoles}
+import play.api.Logging
 import play.api.i18n.I18nSupport
-import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
+import play.api.mvc._
 import utils.auth.DefaultEnv
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -39,19 +40,19 @@ class SignUpController @Inject()(components: ControllerComponents,
                                  avatarService: AvatarService,
                                  captchaService: CaptchaService,
                                  passwordHasherRegistry: PasswordHasherRegistry,
-                                 mailService: MailService)(implicit ex: ExecutionContext) extends AbstractController(components) with I18nSupport {
+                                 mailService: MailService)(implicit ex: ExecutionContext) extends AbstractController(components) with I18nSupport with Logging {
 
   /**
     * Handles the submitted form.
     *
     * @return The result to display.
     */
-  def submit = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
+  def submit: Action[AnyContent] = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
     SignUpForm.form.bindFromRequest.fold(
       _ => Future.successful(BadRequest),
       data => {
-        captchaService.validate(data.captchaResponse, request.remoteAddress) flatMap { valid =>
-          if (valid) {
+      //  captchaService.validate(data.captchaResponse, request.remoteAddress) flatMap { valid =>
+       //   if (valid) {
             val loginInfo = LoginInfo(CredentialsProvider.ID, data.email)
             userService.retrieve(loginInfo).flatMap {
               case Some(user) =>
@@ -75,15 +76,18 @@ class SignUpController @Inject()(components: ControllerComponents,
                   authToken <- authTokenService.create(user.userID)
                 } yield {
                   val route = routes.ActivateAccountController.activate(authToken.id)
-                  mailService.sendActivateAccountEmail(data.email, route.absoluteURL())
-                  silhouette.env.eventBus.publish(SignUpEvent(user, request))
-                  Ok
+
+                  logger.info(route.absoluteURL())
+                  throw new Exception(route.absoluteURL())
+//                  mailService.sendActivateAccountEmail(data.email, route.absoluteURL())
+//                  silhouette.env.eventBus.publish(SignUpEvent(user, request))
+//                  Ok
                 }
             }
-          } else {
-            Future.successful(BadRequest("Captcha code is not correct"))
-          }
-        }
+//          } else {
+//            Future.successful(BadRequest("Captcha code is not correct"))
+//          }
+//        }
       }
     )
   }

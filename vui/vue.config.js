@@ -14,7 +14,7 @@ module.exports = {
         plugins: [
             new webpack.DefinePlugin({
                 'process.conf': {
-                    'RECAPTCHA_SITEKEY': JSON.stringify(process.env.RECAPTCHA_SITEKEY)
+                    'RECAPTCHA_SITEKEY': JSON.stringify('6LeqstIUAAAAAAK6xyreWzqLDKX8vWO0jVPaZL6F')//process.env.RECAPTCHA_SITEKEY)
                 }
             })
         ]

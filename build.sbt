@@ -28,7 +28,15 @@ libraryDependencies ++= Seq(
   caffeine,
   guice,
   filters,
-  "com.sendgrid" % "sendgrid-java" % "4.4.1"
+  "com.sendgrid" % "sendgrid-java" % "4.4.1",
+
+  "com.typesafe.play" %% "play-mailer" % "7.0.1",
+  "com.typesafe.play" %% "play-mailer-guice" % "7.0.1",
+
+  "com.google.zxing" % "core" % "3.4.0",
+  "com.thesamet.scalapb" %% "compilerplugin" % "0.9.6",
+  "com.thesamet.scalapb" %% "scalapb-runtime" % "0.9.6" % "protobuf"
+
 )
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
@@ -46,4 +54,8 @@ scalacOptions ++= Seq(
   "-Ywarn-inaccessible", // Warn about inaccessible types in method signatures.
   "-Ywarn-nullary-override", // Warn when non-nullary overrides nullary, e.g. def foo() over def foo.
   "-Ywarn-numeric-widen" // Warn when numerics are widened.
+)
+
+PB.targets in Compile := Seq(
+  scalapb.gen() -> (sourceManaged in Compile).value
 )

@@ -13,6 +13,8 @@ POST        /password/change                 controllers.ChangePasswordControlle
 GET         /account/email/:email            controllers.ActivateAccountController.send(email: String)
 GET         /account/activate/:token         controllers.ActivateAccountController.activate(token: java.util.UUID)
 
+GET         /sendEmail                  controllers.MailController.sendMail(subject:String,email:String)
+
 ### User management
 # Returns a list of all availalble user roles
 GET         /api/user/role                       controllers.UserManagerController.userRoles()
@@ -25,3 +27,4 @@ GET         /api/user                            controllers.UserManagerControll
 GET         /static/*file              controllers.Assets.at(path="/public/ui/static", file)
 
 GET         /$any<.*>                  controllers.ApplicationController.vueapp(any)
+

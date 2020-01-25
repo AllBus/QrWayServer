@@ -141,4 +141,8 @@ trait DBTableDefinitions {
   def loginInfoQuery(loginInfo: LoginInfo) =
     slickLoginInfos.filter(dbLoginInfo => dbLoginInfo.providerID === loginInfo.providerID && dbLoginInfo.providerKey === loginInfo.providerKey)
 
+
+
+
+
 }
