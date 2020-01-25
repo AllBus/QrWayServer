@@ -1,0 +1,10 @@
+{
+  "name": "play-silhouette-vuejs",
+  "version": "0.0.1",
+  "engines": {
+    "node": "9.5.x"
+  },
+  "scripts": {
+    "postinstall": "cd vui && npm install && npm run build"
+  }
+}
