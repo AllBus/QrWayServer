@@ -15,6 +15,9 @@ GET         /account/activate/:token         controllers.ActivateAccountControll
 
 GET         /sendEmail                       controllers.MailController.sendMail(subject:String,email:String)
 
++nocsrf
+POST        /question/sendCsv                controllers.QuestionController.sendCsv()
+
 GET         /evolutions.sql                  controllers.SchemaEvolutionsController.evolutions
 
 ### User management

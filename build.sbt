@@ -34,9 +34,11 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-mailer-guice" % "7.0.1",
 
   "com.google.zxing" % "core" % "3.4.0",
-  "com.thesamet.scalapb" %% "compilerplugin" % "0.9.6",
-  "com.thesamet.scalapb" %% "scalapb-runtime" % "0.9.6" % "protobuf",
-
+  "com.thesamet.scalapb" %% "compilerplugin" %  scalapb.compiler.Version.scalapbVersion,
+  "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
+  "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion,
+  "io.grpc" % "grpc-netty-shaded" % scalapb.compiler.Version.grpcJavaVersion,
+  "com.opencsv" % "opencsv" % "4.6",
   "com.typesafe.slick" %% "slick-codegen" % "3.2.0"
 
 )
@@ -58,6 +60,11 @@ scalacOptions ++= Seq(
   "-Ywarn-numeric-widen" // Warn when numerics are widened.
 )
 //
-//PB.targets in Compile := Seq(
-//  scalapb.gen() -> (sourceManaged in Compile).value
-//)
+PB.targets in Compile := Seq(
+  scalapb.gen(grpc=true) -> (sourceManaged in Compile).value
+)
+
+enablePlugins(AkkaGrpcPlugin)
+// ALPN agent
+enablePlugins(JavaAgent)
+javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.9" % "runtime;test"

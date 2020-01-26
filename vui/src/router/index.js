@@ -17,8 +17,11 @@ import Changelog from '../components/Changelog.vue'
 import About from '../components/About.vue'
 import SiteLayout from '../components/SiteLayout.vue'
 import store from '../store'
+import QuestionPage from "../components/questions/QuestionPage";
+
 
 Vue.use(VueRouter)
+
 
 const routes = [
     {
@@ -48,6 +51,8 @@ const routes = [
             },
         ]
     },
+
+
     {
         path: '/',
         name: 'SiteLayout',
@@ -129,6 +134,11 @@ const routes = [
                 meta: {
                     requiresAuth: true
                 }
+            },
+            {
+                path: 'questions',
+                name: 'questions',
+                component: QuestionPage
             },
         ]
     }
