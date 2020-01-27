@@ -36,10 +36,10 @@ object QuestionReader {
 	def createDescription(data: Array[String], groupId: Long) = {
 		QuestionInfoWithId(data(0).toInt + groupId,
 			Option(QuestionInfo(
-				data(1),
-				data(3),
-				data(2),
-				""
+				title = data(1),
+				text = data(3),
+				image = data(2),
+				qr = data(4)
 			))
 		)
 	}
@@ -73,7 +73,7 @@ object QuestionReader {
 					nextLine.head match {
 						case "h" ⇒
 							val (id, header) = createHeader(nextLine.tail)
-							if (header.id>0) {
+							if (tekHeader.id>0) {
 								result += FullQuestionGroup(Option(tekHeader),questions.result(),questionInfos.result())
 							}
 							questions.clear()

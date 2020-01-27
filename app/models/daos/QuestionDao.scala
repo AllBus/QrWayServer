@@ -1,7 +1,7 @@
 package models.daos
 
 import qrway2.victorine
-import qrway2.victorine.{FullQuestionGroup, Question, QuestionData, QuestionGroup, QuestionInfo}
+import qrway2.victorine.{FullQuestionGroup, LoadQuestionResponse, Question, QuestionData, QuestionGroup, QuestionInfo}
 
 import scala.concurrent.Future
 
@@ -15,4 +15,6 @@ trait QuestionDao {
 	def writeHeader(header: victorine.QuestionGroup):Future[Int]
 
 	def writeFullQuestion(fullQuestion:FullQuestionGroup):Future[Unit]
+
+	def readTable(qrCode: String): Future[LoadQuestionResponse]
 }

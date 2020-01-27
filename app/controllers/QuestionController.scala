@@ -2,17 +2,24 @@ package controllers
 
 import java.nio.file.Paths
 
+import play.api.cache._
 import csv.QuestionReader
+import dataconversion.DecodeProtobuf._
 import javax.inject.Inject
 import models.services.QuestionService
 import play.api.mvc.{AbstractController, ControllerComponents}
+import qrway2.victorine.{LoadQuestionRequest, LoadQuestionResponse}
 
+import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 
 class QuestionController @Inject()(components: ControllerComponents,
+                                   cache: AsyncCacheApi,
                                    questionService:QuestionService
                                   )
                                   (implicit ec: ExecutionContext) extends AbstractController(components)  {
+
+	implicit def controller=this
 
 	def sendCsv() = Action.async(parse.multipartFormData) { request =>
 		request.body.file("file") .map { picture =>
@@ -31,6 +38,20 @@ class QuestionController @Inject()(components: ControllerComponents,
 			.getOrElse {
 				Future(		Ok("File error"))
 			}
+	}
+
+	def readQuestion(qrCode:String) = Action.async{
+		cache.getOrElseUpdate[LoadQuestionResponse]("QuestionController.readQuestion", 5.minutes) {
+			questionService.readQuestion(qrCode)
+		}.map(x ⇒ Ok(x))
+	}
+
+
+
+	def readQuestionProto = Action.async(parseProto(LoadQuestionRequest)){ request ⇒
+		cache.getOrElseUpdate[LoadQuestionResponse]("QuestionController.readQuestionProto", 5.minutes) {
+			questionService.readQuestion(request.body.qrLink)
+		}.map(x ⇒ Ok(x))
 	}
 
 }

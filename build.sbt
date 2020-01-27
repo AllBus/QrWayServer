@@ -39,7 +39,8 @@ libraryDependencies ++= Seq(
   "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion,
   "io.grpc" % "grpc-netty-shaded" % scalapb.compiler.Version.grpcJavaVersion,
   "com.opencsv" % "opencsv" % "4.6",
-  "com.typesafe.slick" %% "slick-codegen" % "3.2.0"
+  "com.typesafe.slick" %% "slick-codegen" % "3.2.0",
+  "com.github.tminglei" %% "slick-pg" % "0.18.1"
 
 )
 

@@ -14,11 +14,15 @@ GET         /account/email/:email            controllers.ActivateAccountControll
 GET         /account/activate/:token         controllers.ActivateAccountController.activate(token: java.util.UUID)
 
 GET         /sendEmail                       controllers.MailController.sendMail(subject:String,email:String)
+GET         /quest                           controllers.QuestionController.readQuestion(qr:String)
 
 +nocsrf
 POST        /question/sendCsv                controllers.QuestionController.sendCsv()
 
 GET         /evolutions.sql                  controllers.SchemaEvolutionsController.evolutions
+
+### Proto interface
+POST        /proto/quest                     controllers.QuestionController.readQuestionProto
 
 ### User management
 # Returns a list of all availalble user roles

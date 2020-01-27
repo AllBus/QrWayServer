@@ -11,4 +11,6 @@ class QuestionService  @Inject()(questionDAO: QuestionDaoImpl)(implicit ec: Exec
 	def saveCsv(fullQuestion:FullQuestionGroup): Future[Unit] = {
 		questionDAO.writeFullQuestion(fullQuestion)
 	}
+
+	def readQuestion(qrCode:String) = questionDAO.readTable(qrCode)
 }
